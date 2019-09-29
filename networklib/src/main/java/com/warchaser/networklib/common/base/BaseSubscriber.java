@@ -130,8 +130,7 @@ public class BaseSubscriber<T> implements Subscriber<T> , ISubscribe<T> {
         }
 
         //连接错误
-        if (e instanceof ConnectException
-                || e instanceof UnknownHostException
+        if (e instanceof UnknownHostException
                 || e instanceof SocketException) {
             result = ExceptionReason.CONNECT_ERROR.typeName;
             return result;

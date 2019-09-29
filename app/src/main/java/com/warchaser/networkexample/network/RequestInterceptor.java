@@ -1,10 +1,6 @@
-package com.warchaser.networklib.provider;
+package com.warchaser.networkexample.network;
 
 import androidx.annotation.NonNull;
-
-import com.are.flightatt.app.App;
-import com.are.flightatt.util.CacheDataUtil;
-import com.are.flightatt.util.DeviceIDUtils;
 
 import java.io.IOException;
 
@@ -31,13 +27,14 @@ final public class RequestInterceptor implements Interceptor {
 
         HttpUrl.Builder builder = originalHttpUrl.newBuilder();
 
-        if(App.getInstance().isMockModel()){
-            builder.addQueryParameter("model","mock");
-        }
-
-        builder.addQueryParameter("deviceId", DeviceIDUtils.getDeviceId());
-        builder.addQueryParameter("number", CacheDataUtil.getWorkNum());
-        builder.addQueryParameter("accessToken", CacheDataUtil.getAccessToken());
+        //例子:可以全局拼接链接的形式传入参数
+//        if(App.getInstance().isMockModel()){
+//            builder.addQueryParameter("model","mock");
+//        }
+//
+//        builder.addQueryParameter("deviceId", DeviceIDUtils.getDeviceId());
+//        builder.addQueryParameter("number", CacheDataUtil.getWorkNum());
+//        builder.addQueryParameter("accessToken", CacheDataUtil.getAccessToken());
 
         HttpUrl url = builder.build();
 

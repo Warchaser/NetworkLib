@@ -8,6 +8,7 @@ import com.warchaser.networklib.util.NLog;
 
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -26,12 +27,31 @@ public final class NetWorkProvider {
      * 提供一个OkHttp3对象
      * */
     @NonNull
-    static OkHttpClient getOkHttpClient(){
+    static OkHttpClient getOkHttpClientWithInterceptors(Interceptor ... interceptors){
 
+        if(interceptors.length == 0){
+            return getOkHttpClient();
+        }
+
+        final OkHttpClient.Builder builder = getOkHttpClientBuilderDefault();
+
+        for(Interceptor interceptor : interceptors){
+            builder.addInterceptor(interceptor);
+        }
+
+        return builder.build();
+    }
+
+    @NonNull
+    static OkHttpClient getOkHttpClient(){
+        return getOkHttpClientBuilderDefault().build();
+    }
+
+    private static OkHttpClient.Builder getOkHttpClientBuilderDefault(){
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         try {
 
-            RequestInterceptor interceptor = new RequestInterceptor();
+//            RequestInterceptor interceptor = new RequestInterceptor();
 
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                 @Override
@@ -50,13 +70,12 @@ public final class NetWorkProvider {
 
             builder.connectTimeout(CONNECT_TIMEOUT_MS, TimeUnit.MILLISECONDS)
                     .readTimeout(READ_TIMEOUT_MS, TimeUnit.MILLISECONDS)
-                    .addInterceptor(loggingInterceptor)
-                    .addInterceptor(interceptor);
+                    .addInterceptor(loggingInterceptor);
         } catch (Exception | Error e){
             NLog.printStackTrace("NetWorkProvider", e);
         }
 
-        return builder.build();
+        return builder;
     }
 
     /**

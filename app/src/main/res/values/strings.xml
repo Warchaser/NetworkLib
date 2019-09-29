@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">NetworkExample</string>
+
+    <!--Download Apk-->
+    <string name="format_download_apk_percent">正在下载更新包%1$s％</string>
+    <string name="hint_apk_download_finished">更新包下载完成，点击安装</string>
+    <string name="hint_apk_download_error">更新包下载失败</string>
 </resources>

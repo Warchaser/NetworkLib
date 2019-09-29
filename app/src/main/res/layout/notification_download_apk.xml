@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/mLyRoot"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="?android:attr/selectableItemBackground"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/dip_40"
+    android:paddingLeft="@dimen/dip_15"
+    android:paddingRight="@dimen/dip_15">
+
+    <ImageView
+        android:id="@+id/mIvIcon"
+        android:layout_width="@dimen/dip_40"
+        android:layout_height="@dimen/dip_40"
+        android:src="@mipmap/ic_launcher"
+        android:layout_centerVertical="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/mIvIcon"
+        android:orientation="vertical"
+        android:padding="@dimen/dip_10">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="@string/app_name" />
+
+        <LinearLayout
+            android:id="@+id/mLyProgress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/mTvProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"/>
+
+            <ProgressBar
+                android:id="@+id/mProgressBar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dip_2"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:progressDrawable="@drawable/bg_progressbar_normal"
+                android:progress="0"
+                android:max="100"
+                android:layout_marginTop="@dimen/dip_5"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/mLyFinishWithState"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/mTvFinishState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hint_apk_download_finished"
+                android:layout_centerVertical="true"
+                android:textColor="@color/black"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
