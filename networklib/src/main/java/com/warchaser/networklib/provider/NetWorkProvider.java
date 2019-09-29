@@ -27,7 +27,7 @@ public final class NetWorkProvider {
      * 提供一个OkHttp3对象
      * */
     @NonNull
-    static OkHttpClient getOkHttpClientWithInterceptors(Interceptor ... interceptors){
+    public static OkHttpClient getOkHttpClientWithInterceptors(Interceptor ... interceptors){
 
         if(interceptors.length == 0){
             return getOkHttpClient();
@@ -36,14 +36,16 @@ public final class NetWorkProvider {
         final OkHttpClient.Builder builder = getOkHttpClientBuilderDefault();
 
         for(Interceptor interceptor : interceptors){
-            builder.addInterceptor(interceptor);
+            if(interceptor != null){
+                builder.addInterceptor(interceptor);
+            }
         }
 
         return builder.build();
     }
 
     @NonNull
-    static OkHttpClient getOkHttpClient(){
+    public static OkHttpClient getOkHttpClient(){
         return getOkHttpClientBuilderDefault().build();
     }
 
@@ -82,7 +84,7 @@ public final class NetWorkProvider {
      * 提供一个Retrofit2对象
      * */
     @NonNull
-    static Retrofit getRetrofit(OkHttpClient client, String baseUrl){
+    public static Retrofit getRetrofit(OkHttpClient client, String baseUrl){
 
         Retrofit.Builder builder = new Retrofit.Builder();
 

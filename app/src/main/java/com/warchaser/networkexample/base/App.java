@@ -2,6 +2,7 @@ package com.warchaser.networkexample.base;
 
 import android.app.Application;
 
+import com.warchaser.commonuitls.ToastUtil;
 import com.warchaser.networkexample.util.Constants;
 import com.warchaser.networklib.util.ErrorCodeUtil;
 
@@ -19,6 +20,8 @@ public class App extends Application {
                 Constants.TOKEN_NEEDED,
                 Constants.TOKEN_NOT_EXIST
         );
+
+        ToastUtil.initContext(getApplicationContext());
     }
 
     public static App getInstance(){

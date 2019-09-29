@@ -28,7 +28,7 @@ public class BaseSubscriber<T> implements Subscriber<T> , ISubscribe<T> {
     /**
      * 返回体解析关键字
      * */
-    public static final String RES_KEY_DATA = "data";
+    public static final String RES_KEY_DATA = "body";
     public static final String RES_KEY_MESSAGE = "message";
     public static final String RES_KEY_STATE = "state";
 
