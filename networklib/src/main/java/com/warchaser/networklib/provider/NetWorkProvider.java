@@ -113,4 +113,13 @@ public final class NetWorkProvider {
 
         return getRetrofit(builder.build(), baseUrl);
     }
+
+    @NonNull
+    public static Retrofit getUploadRetrofit(String baseUrl){
+        final OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.connectTimeout(CONNECT_TIMEOUT_MS, TimeUnit.MILLISECONDS)
+                .readTimeout(READ_TIMEOUT_MS, TimeUnit.MILLISECONDS);
+
+        return getRetrofit(builder.build(), baseUrl);
+    }
 }
