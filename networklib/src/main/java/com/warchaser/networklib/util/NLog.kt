@@ -296,6 +296,26 @@ object NLog {
             return
         }
 
+        val lines : List<String> = getJsonLinesWithList(msg)
+        for (line : String in lines){
+            e(tag, line)
+        }
+//        printLine(tag, false)
+
+    }
+
+    /**
+     * 获取Json格式的list对象
+     * 每LINE_SEPARATOR为一行
+     * */
+    fun getJsonLinesWithList(msg : String) : List<String>{
+        return getJsonLines(msg).split(LINE_SEPARATOR)
+    }
+
+    /**
+     * 获取Json格式的字符串
+     * */
+    fun getJsonLines(msg : String) : String{
         var message : String
 
         try {
@@ -319,14 +339,8 @@ object NLog {
             e.printStackTrace()
         }
 
-//        printLine(tag, true)
         message = JSON_RESULT + LINE_SEPARATOR + message
-        val lines : List<String> = message.split(LINE_SEPARATOR)
-        for (line : String in lines){
-            e(tag, line)
-        }
-//        printLine(tag, false)
-
+        return message
     }
 
     /**

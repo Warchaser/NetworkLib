@@ -16,6 +16,7 @@ public class FileUploadSubscriber<T> implements Subscriber<T> {
     private WeakReference<UploadCallback<T>> mCallBack;
 
     private Subscription mSubscription;
+    private final int REQUEST_COUNT = 1;
 
     public FileUploadSubscriber(UploadCallback<T> callback){
         setUploadCallback(callback);
@@ -33,11 +34,13 @@ public class FileUploadSubscriber<T> implements Subscriber<T> {
         }
 
         mSubscription = s;
+        s.request(REQUEST_COUNT);
     }
 
     @Override
     public void onNext(T t) {
         NLog.e(TAG, THIS + "onNext()");
+        mSubscription.request(REQUEST_COUNT);
         if(mCallBack != null){
             if(t instanceof BaseUploadResp){
                 if(((BaseUploadResp) t).getStatusCode() == 200){
@@ -49,6 +52,7 @@ public class FileUploadSubscriber<T> implements Subscriber<T> {
 
     @Override
     public void onError(Throwable t) {
+        NLog.e(TAG, THIS + "onError()");
         if(mCallBack != null){
             mCallBack.get().onUploadFailed(t);
         }

@@ -1,5 +1,9 @@
 package com.warchaser.networklib.upload;
 
+import androidx.annotation.NonNull;
+
+import com.google.gson.Gson;
+
 public class UploadResponseBody {
 
 
@@ -55,5 +59,11 @@ public class UploadResponseBody {
 
     public void setDb_url(String db_url) {
         this.db_url = db_url;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 }

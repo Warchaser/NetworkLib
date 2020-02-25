@@ -1,19 +1,13 @@
 package com.warchaser.networklib.upload;
 
-import android.util.ArrayMap;
 
 import com.warchaser.networklib.provider.NetWorkProvider;
 import com.warchaser.networklib.util.RxJavaUtils;
 
-import org.reactivestreams.Subscriber;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Map;
 
 import io.reactivex.Flowable;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 
 public class UploadRequest {
 
@@ -58,7 +52,7 @@ public class UploadRequest {
 
         final FileUploadSubscriber<BaseUploadResp<UploadResponseBody>> subscriber = new FileUploadSubscriber<BaseUploadResp<UploadResponseBody>>(callback);
 
-        final UploadFileRequestBody uploadFileRequestBody = new UploadFileRequestBody(file, subscriber);
+        final UploadFileRequestBody uploadFileRequestBody = new UploadFileRequestBody(file, callback);
 
         final Flowable<BaseUploadResp<UploadResponseBody>> flowable = getService().uploadMultipleFiles(url, MultipartBodyBuilder.file2MultipartBody(file, userId, appId, uploadFileRequestBody), appId);
 

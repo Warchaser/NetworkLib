@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import okio.Buffer;
 import okio.BufferedSink;
 import okio.ForwardingSink;
@@ -17,11 +15,11 @@ public class UploadFileRequestBody extends RequestBody {
 
     private RequestBody mRequestBody;
 
-    private FileUploadSubscriber<BaseUploadResp<UploadResponseBody>> mSubscriber;
+    private UploadCallback<BaseUploadResp<UploadResponseBody>> mCallback;
 
-    public UploadFileRequestBody(File file, FileUploadSubscriber<BaseUploadResp<UploadResponseBody>> subscriber){
+    public UploadFileRequestBody(File file, UploadCallback<BaseUploadResp<UploadResponseBody>> callback){
         mRequestBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
-        mSubscriber = subscriber;
+        mCallback = callback;
     }
 
     @Override
@@ -57,10 +55,9 @@ public class UploadFileRequestBody extends RequestBody {
             super.write(source, byteCount);
 
             mBytesWritten += byteCount;
-            if(mSubscriber != null){
-                mSubscriber.onUploadProgress(mBytesWritten, contentLength());
+            if(mCallback != null){
+                mCallback.onProgress(mBytesWritten, contentLength());
             }
-
         }
     }
 }
