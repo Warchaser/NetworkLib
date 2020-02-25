@@ -27,4 +27,9 @@
         android:layout_gravity="center_horizontal"
         android:text="upload"/>
 
+    <TextView
+        android:id="@+id/mTvUploadResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

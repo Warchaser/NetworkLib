@@ -13,15 +13,15 @@ public class FileUploadSubscriber<T> implements Subscriber<T> {
     private final String TAG = "UPLOAD_SUBSCRIBE";
     private final String THIS = PackageUtil.getSimpleClassName(this);
 
-    private WeakReference<UploadCallback> mCallBack;
+    private WeakReference<UploadCallback<T>> mCallBack;
 
     private Subscription mSubscription;
 
-    public FileUploadSubscriber(UploadCallback callback){
+    public FileUploadSubscriber(UploadCallback<T> callback){
         setUploadCallback(callback);
     }
 
-    public void setUploadCallback(UploadCallback callback){
+    public void setUploadCallback(UploadCallback<T> callback){
         this.mCallBack = new WeakReference<>(callback);
     }
 
@@ -38,6 +38,13 @@ public class FileUploadSubscriber<T> implements Subscriber<T> {
     @Override
     public void onNext(T t) {
         NLog.e(TAG, THIS + "onNext()");
+        if(mCallBack != null){
+            if(t instanceof BaseUploadResp){
+                if(((BaseUploadResp) t).getStatusCode() == 200){
+                    mCallBack.get().onUploadSuccess(t);
+                }
+            }
+        }
     }
 
     @Override
@@ -52,9 +59,9 @@ public class FileUploadSubscriber<T> implements Subscriber<T> {
         NLog.e(TAG, THIS + "onComplete()");
     }
 
-    public void onUploadSuccess(){
+    public void onUploadSuccess(T t){
         if(mCallBack != null){
-            mCallBack.get().onUploadSuccess();
+            mCallBack.get().onUploadSuccess(t);
         }
     }
 

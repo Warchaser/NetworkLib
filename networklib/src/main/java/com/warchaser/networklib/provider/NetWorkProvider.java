@@ -54,25 +54,9 @@ public final class NetWorkProvider {
         try {
 
 //            RequestInterceptor interceptor = new RequestInterceptor();
-
-            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-                @Override
-                public synchronized void log(@NonNull String message) {
-                    if(message.startsWith("{")){
-                        NLog.printJson(OK_HTTP_LOG, message);
-                    } else if(message.startsWith("<!DOCTYPE html>")){
-                        NLog.printHtml(OK_HTTP_LOG, message);
-                    } else {
-                        NLog.e(OK_HTTP_LOG, message);
-                    }
-                }
-            });
-
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
             builder.connectTimeout(CONNECT_TIMEOUT_MS, TimeUnit.MILLISECONDS)
                     .readTimeout(READ_TIMEOUT_MS, TimeUnit.MILLISECONDS)
-                    .addInterceptor(loggingInterceptor);
+                    .addInterceptor(getCommonLoggingInterceptor());
         } catch (Exception | Error e){
             NLog.printStackTrace("NetWorkProvider", e);
         }
@@ -119,7 +103,29 @@ public final class NetWorkProvider {
         final OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(CONNECT_TIMEOUT_MS, TimeUnit.MILLISECONDS)
                 .readTimeout(READ_TIMEOUT_MS, TimeUnit.MILLISECONDS);
+        builder.addInterceptor(getCommonLoggingInterceptor());
 
         return getRetrofit(builder.build(), baseUrl);
     }
+
+    private static HttpLoggingInterceptor getCommonLoggingInterceptor() {
+        final HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override
+            public synchronized void log(@NonNull String message) {
+                if (message.startsWith("{")) {
+                    NLog.printJson(OK_HTTP_LOG, message);
+                } else if (message.startsWith("<!DOCTYPE html>")) {
+                    NLog.printHtml(OK_HTTP_LOG, message);
+                } else {
+                    NLog.e(OK_HTTP_LOG, message);
+                }
+            }
+        });
+
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        return httpLoggingInterceptor;
+    }
+
+
 }

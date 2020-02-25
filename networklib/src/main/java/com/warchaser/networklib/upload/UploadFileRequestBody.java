@@ -17,10 +17,10 @@ public class UploadFileRequestBody extends RequestBody {
 
     private RequestBody mRequestBody;
 
-    private FileUploadSubscriber<ResponseBody> mSubscriber;
+    private FileUploadSubscriber<BaseUploadResp<UploadResponseBody>> mSubscriber;
 
-    public UploadFileRequestBody(File file, FileUploadSubscriber<ResponseBody> subscriber){
-        mRequestBody = MultipartBody.create(MultipartBody.FORM, file);
+    public UploadFileRequestBody(File file, FileUploadSubscriber<BaseUploadResp<UploadResponseBody>> subscriber){
+        mRequestBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
         mSubscriber = subscriber;
     }
 
@@ -59,11 +59,6 @@ public class UploadFileRequestBody extends RequestBody {
             mBytesWritten += byteCount;
             if(mSubscriber != null){
                 mSubscriber.onUploadProgress(mBytesWritten, contentLength());
-
-                if(mBytesWritten == contentLength()){
-                    mSubscriber.onUploadSuccess();
-                }
-
             }
 
         }

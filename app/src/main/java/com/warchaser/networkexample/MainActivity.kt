@@ -1,6 +1,5 @@
 package com.warchaser.networkexample
 
-
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -12,12 +11,13 @@ import com.warchaser.networkexample.bean.GetUsersByIndexResp
 import com.warchaser.networkexample.network.NetworkRequest
 import com.warchaser.networkexample.network.NormalSubscriber
 import com.warchaser.networklib.common.base.BaseSubscriber
+import com.warchaser.networklib.upload.BaseUploadResp
 import com.warchaser.networklib.upload.UploadCallback
 import com.warchaser.networklib.upload.UploadRequest
+import com.warchaser.networklib.upload.UploadResponseBody
 import com.warchaser.networklib.util.GsonUtil
 import com.warchaser.networklib.util.NLog
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.ResponseBody
 import java.io.File
 
 class MainActivity : BaseActivity() {
@@ -102,15 +102,16 @@ class MainActivity : BaseActivity() {
 
     }
 
-    private inner class FileUploadCallback : UploadCallback<ResponseBody>() {
+    private inner class FileUploadCallback : UploadCallback<BaseUploadResp<UploadResponseBody>>() {
 
         override fun onRequest() {
             super.onRequest()
             NLog.e("Upload", "onRequest()!!!")
         }
 
-        override fun onUploadSuccess() {
+        override fun onUploadSuccess(uploadResult : BaseUploadResp<UploadResponseBody>) {
             NLog.e("Upload", "OnUploadSuccess!!!")
+            mTvUploadResult.text = uploadResult.data.toString()
         }
 
         override fun onUploadFailed(e: Throwable?) {

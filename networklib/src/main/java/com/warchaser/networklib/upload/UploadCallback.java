@@ -7,7 +7,7 @@ public abstract class UploadCallback<T> {
     }
 
     //上传成功
-    public abstract void onUploadSuccess();
+    public abstract void onUploadSuccess(T t);
 
     //上传失败
     public abstract void onUploadFailed(Throwable e);

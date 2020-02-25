@@ -49,18 +49,18 @@ public class UploadRequest {
 
     }
 
-    public void uploadFile(String url, File file, String userId, String appId, UploadCallback<ResponseBody> callback){
+    public void uploadFile(String url, File file, String userId, String appId, UploadCallback<BaseUploadResp<UploadResponseBody>> callback){
 
         if(file == null || file.length() == 0){
             callback.onUploadFailed(new FileNotFoundException("File is Null or Empty!!!"));
             return;
         }
 
-        final FileUploadSubscriber<ResponseBody> subscriber = new FileUploadSubscriber<ResponseBody>(callback);
+        final FileUploadSubscriber<BaseUploadResp<UploadResponseBody>> subscriber = new FileUploadSubscriber<BaseUploadResp<UploadResponseBody>>(callback);
 
         final UploadFileRequestBody uploadFileRequestBody = new UploadFileRequestBody(file, subscriber);
 
-        final Flowable<ResponseBody> flowable = getService().uploadMultipleFiles(url, MultipartBodyBuilder.file2MultipartBody(file, userId, appId, uploadFileRequestBody));
+        final Flowable<BaseUploadResp<UploadResponseBody>> flowable = getService().uploadMultipleFiles(url, MultipartBodyBuilder.file2MultipartBody(file, userId, appId, uploadFileRequestBody), appId);
 
         RxJavaUtils.subscribe(flowable, subscriber);
     }
