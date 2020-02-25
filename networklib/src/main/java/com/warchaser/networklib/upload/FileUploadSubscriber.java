@@ -34,18 +34,20 @@ public class FileUploadSubscriber<T> implements Subscriber<T> {
         }
 
         mSubscription = s;
+        //由于是Flowable包装的，所以需要Request
         s.request(REQUEST_COUNT);
     }
 
     @Override
     public void onNext(T t) {
         NLog.e(TAG, THIS + "onNext()");
+        //下游Request,才会触发Next
         mSubscription.request(REQUEST_COUNT);
-        if(mCallBack != null){
-            if(t instanceof BaseUploadResp){
-                if(((BaseUploadResp) t).getStatusCode() == 200){
-                    mCallBack.get().onUploadSuccess(t);
-                }
+        if(t instanceof BaseUploadResp){
+            if(((BaseUploadResp) t).getStatusCode() == 200){
+                onUploadSuccess(t);
+            } else {
+                onUploadFailed(t);
             }
         }
     }
@@ -66,6 +68,12 @@ public class FileUploadSubscriber<T> implements Subscriber<T> {
     public void onUploadSuccess(T t){
         if(mCallBack != null){
             mCallBack.get().onUploadSuccess(t);
+        }
+    }
+
+    public void onUploadFailed(T t){
+        if(mCallBack != null){
+            mCallBack.get().onUploadFailed(t);
         }
     }
 

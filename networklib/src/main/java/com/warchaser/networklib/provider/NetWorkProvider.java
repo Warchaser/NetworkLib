@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 
 
 import com.warchaser.networklib.download.DownloadInterceptor;
-import com.warchaser.networklib.upload.ResponseWithJsonConverter;
 import com.warchaser.networklib.util.NLog;
 
 import java.util.concurrent.TimeUnit;
@@ -14,7 +13,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class NetWorkProvider {
     private static final int CONNECT_TIMEOUT_MS = 45_000;
@@ -112,7 +110,7 @@ public final class NetWorkProvider {
         try {
             retrofitBuilder.baseUrl(baseUrl)
 //                    .addConverterFactory(CustomMoshiConverterFactory.create().asLenient())
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(MultipleConverter.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(builder.build())
                     .build();

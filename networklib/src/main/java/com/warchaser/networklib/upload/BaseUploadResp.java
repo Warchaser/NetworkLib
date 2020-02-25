@@ -1,5 +1,9 @@
 package com.warchaser.networklib.upload;
 
+import androidx.annotation.NonNull;
+
+import com.google.gson.Gson;
+
 public class BaseUploadResp<T> {
 
     private int statusCode;
@@ -30,5 +34,11 @@ public class BaseUploadResp<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 }

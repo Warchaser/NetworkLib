@@ -111,7 +111,7 @@ class MainActivity : BaseActivity() {
 
         override fun onUploadSuccess(uploadResult : BaseUploadResp<UploadResponseBody>) {
             NLog.e("Upload", "OnUploadSuccess!!!")
-            val jsonLines = NLog.getJsonLines(uploadResult.data.toString())
+            val jsonLines = NLog.getJsonLines(uploadResult.toString())
             mTvUploadResult.text = jsonLines
         }
 
@@ -121,6 +121,12 @@ class MainActivity : BaseActivity() {
 
         override fun onProgress(bytesWritten: Long, contentLength: Long) {
             NLog.e("Upload", bytesWritten.toString())
+        }
+
+        override fun onUploadFailed(t: BaseUploadResp<UploadResponseBody>) {
+            NLog.e("Upload", "UploadFailed!!!")
+            val jsonLines = NLog.getJsonLines(t.toString())
+            mTvUploadResult.text = jsonLines
         }
 
     }

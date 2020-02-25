@@ -12,6 +12,8 @@ public abstract class UploadCallback<T> {
     //上传失败
     public abstract void onUploadFailed(Throwable e);
 
+    public abstract void onUploadFailed(T t);
+
     //上传进度回调
     public abstract void onProgress(long bytesWritten, long contentLength);
 
