@@ -27,6 +27,7 @@ public class FileUploadSubscriber<T> implements Subscriber<T> {
 
     @Override
     public void onSubscribe(Subscription s) {
+        NLog.e(TAG, THIS + "onSubscribe()");
         if(mCallBack != null){
             mCallBack.get().onRequest();
         }
@@ -36,7 +37,7 @@ public class FileUploadSubscriber<T> implements Subscriber<T> {
 
     @Override
     public void onNext(T t) {
-        NLog.i(TAG, THIS + "onNext()");
+        NLog.e(TAG, THIS + "onNext()");
     }
 
     @Override
@@ -48,7 +49,7 @@ public class FileUploadSubscriber<T> implements Subscriber<T> {
 
     @Override
     public void onComplete() {
-        NLog.i(TAG, THIS + "onComplete()");
+        NLog.e(TAG, THIS + "onComplete()");
     }
 
     public void onUploadSuccess(){

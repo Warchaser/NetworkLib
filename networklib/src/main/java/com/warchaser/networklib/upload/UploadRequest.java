@@ -8,6 +8,7 @@ import com.warchaser.networklib.util.RxJavaUtils;
 import org.reactivestreams.Subscriber;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Map;
 
 import io.reactivex.Flowable;
@@ -49,6 +50,11 @@ public class UploadRequest {
     }
 
     public void uploadFile(String url, File file, String userId, String appId, UploadCallback<ResponseBody> callback){
+
+        if(file == null || file.length() == 0){
+            callback.onUploadFailed(new FileNotFoundException("File is Null or Empty!!!"));
+            return;
+        }
 
         final FileUploadSubscriber<ResponseBody> subscriber = new FileUploadSubscriber<ResponseBody>(callback);
 

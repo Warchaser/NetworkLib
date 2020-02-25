@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import okio.Buffer;
@@ -19,7 +20,7 @@ public class UploadFileRequestBody extends RequestBody {
     private FileUploadSubscriber<ResponseBody> mSubscriber;
 
     public UploadFileRequestBody(File file, FileUploadSubscriber<ResponseBody> subscriber){
-        mRequestBody = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), file);
+        mRequestBody = MultipartBody.create(MultipartBody.FORM, file);
         mSubscriber = subscriber;
     }
 

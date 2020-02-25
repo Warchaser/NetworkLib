@@ -17,6 +17,7 @@ public class MultipartBodyBuilder {
         builder.addFormDataPart("uuid", UUIDUtil.getUuidFileName(file.getName()));
 
         builder.addFormDataPart("db", file.getName(), requestBody);
+        builder.setType(MultipartBody.FORM);
 
         return builder.build();
 
